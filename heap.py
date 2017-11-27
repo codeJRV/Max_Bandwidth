@@ -10,8 +10,11 @@ class HeapBase:
 
 class HeapPQ():
 
-    def __init__(self):
+    def __init__(self,k,v):
         self.elementList = []
+        if(k != None and v!=None):
+            self.elementList.append(HeapBase(k,v))
+
 
     def show(self):
         for e in self.elementList:
@@ -84,3 +87,93 @@ class HeapPQ():
         element = self.elementList.pop()
         self._bubbledown(0)
         return (element._key, element._value)
+#
+# class DijkstrasHeap(HeapPQ):
+#
+#     def __init__(self):
+#         super().__init__()
+#         index = []
+#
+#     def add(self,key,value):
+#         element = []
+#         element.append(HeapBase(key,value))
+#         element.append(len(self.elementList))
+#         print(element[0]._key , element[0]._value,element[1] )
+#         self.elementList.append(element)
+#         self.heapify()
+#         return element
+#
+#     def update(self, idx, key, value):
+#         print(idx)
+#
+#         j = idx[1]
+#         print(j)
+#         print(len(self.elementList))
+#         #print(self.elementList[j])
+#
+#         if not (0 <= j<= len(self.elementList) and self.elementList[j-1] is idx):
+#             raise ValueError('Invalid locator')
+#         idx[0]._key = key
+#         idx[0]._value = value
+#
+#         if j > 0 and self.elementList[j] > self.elementList[self._parent(j)]:
+#             self._bubbleup(j)
+#         else:
+#             self._bubbledown(j)
+#
+#     def show(self):
+#         for e in self.elementList:
+#             print("Key: ", e[0]._key,"Value: ", e[0]._value, "Index:" , e[1] )
+#
+#     def remove_largest(self):
+#         if not self.elementList:
+#             raise Empty('Priority queue is empty.')
+#
+#         temp = self.elementList[0]
+#         self.elementList[0] = self.elementList[len(self.elementList)-1]
+#         self.elementList[len(self.elementList) - 1] = temp
+#
+#         element = self.elementList.pop()
+#         self._bubbledown(0)
+#         return (element[0]._key, element[0]._value)
+
+
+class DijkstrasHeap(HeapPQ):
+    class Locator(HeapPQ):
+        __slots__ = '_index'
+
+        def __init__(self, k, v, j):
+            super().__init__(k, v)
+            self._index = j
+            self._key   = k
+            self._value = v
+
+        def __lt__(self, other):
+            return self._key < other._key
+
+
+    def add(self, key, value):
+        token = self.Locator(key, value, len(self.elementList))
+        # print(len(self.elementList))
+        #print("Token",token)
+        self.elementList.append(token)
+        self.heapify()
+        return token
+
+    def update(self, loc, newkey, newval):
+        j = loc._index
+        #print("Jay" , j)
+        #print("Len" ,len(self.elementList))
+        #print(self.elementList[j])
+        #if not (0 <= j < len(self.elementList) and self.elementList[j] is loc):
+        #    raise ValueError('Invalid locator')
+        loc._key = newkey
+        loc._value = newval
+
+        if j > 0 and self.elementList[j-1] > self.elementList[self._parent(j-1)]:
+            self._bubbleup(j)
+        else:
+            self._bubbledown(j)
+
+
+

@@ -28,7 +28,7 @@ def find(vertex):
 
 def kruskals(G,s,t):
     print("Kruskal is walking thru the graph slowly...")
-    Pqueue  = HeapPQ()
+    Pqueue  = HeapPQ(None,None)
     for v in G.get_vertices(): make_set(v)
     for e in G.get_edges()   :
         #print(e)

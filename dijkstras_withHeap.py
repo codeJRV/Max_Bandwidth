@@ -2,12 +2,11 @@ from heap import *
 
 def dijkstras_withHeap(G,s,t):
     print("Dijkstra running with heap")
-
     status      = {}
     parent      = {}
-    heapFringe  = HeapPQ()
-    heapIndex   = {}
+    fringe      = DijkstrasHeap(None,None)
     bandwidth   = {}
+    indexer     = {}
 
 
     bandwidth[s] = float('inf')
@@ -23,22 +22,24 @@ def dijkstras_withHeap(G,s,t):
         bandwidth[v] = e[2]
         status[v] = 'fringe'
         parent[v] = u
-        heapIndex[v] = heapFringe.add(bandwidth[v],v)
+        indexer[v] = fringe.add(bandwidth[v],v)
+
+    #print (indexer)
+    #fringe.show()
+
+    #print("till here ok")
 
     while (status[t] != 'in_tree'):
-        #u = max(fringe, key=fringe.get)
-        #max_bw = fringe[u]
-        #fringe.__delitem__(u)
 
-        max_element = heapFringe.remove_largest()
-        print(max_element)
-        max_wt = max_element[0]
-        v      = max_element[1]
-        u      = parent[v]
-        print(heapIndex)
-        #heapIndex.__delitem__(u)
+        max_element = fringe.remove_largest()
+        #print("Removing:",max_element[0])
+        #Pqueue.show()
 
-        bandwidth[u] = max_wt
+        max_bw = max_element[0]
+        u      = max_element[1]
+
+        indexer.__delitem__(u)
+        bandwidth[u] = max_bw
         #print("Vertex: ", u,"Weight:", max_bw)
         status[u] = 'in_tree'
         #Standard Dijkstras's core implementation : Source = notes + online
@@ -51,12 +52,14 @@ def dijkstras_withHeap(G,s,t):
                 status[vertex] = 'fringe'
                 parent[vertex] = u
                 bandwidth[vertex] = min(bandwidth[u], e[2])
-                heapIndex[vertex] = heapFringe.add(bandwidth[vertex], vertex)
+                #fringe[vertex] = bandwidth[vertex]
+                indexer[vertex] = fringe.add(bandwidth[vertex], vertex)
 
             elif status[vertex] == 'fringe' and bandwidth[vertex] < min(bandwidth[u], e[2]):
                 parent[vertex] = u
                 bandwidth[vertex] = min(bandwidth[u], e[2])
-                heapFringe.update(locator[vertex], bw[vertex], vertex)
+                #fringe[vertex] = bandwidth[vertex]
+                fringe.update(indexer[vertex],bandwidth[vertex],vertex)
 
     if status[t] == 'in_tree':
 

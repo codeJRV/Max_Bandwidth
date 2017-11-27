@@ -22,6 +22,7 @@ def dijkstras_noHeap(G,s,t):
 
     while (status[t] != 'in_tree'):
         u = max(fringe, key=fringe.get)
+        #print (u)
         max_bw = fringe[u]
         fringe.__delitem__(u)
         bandwidth[u] = max_bw
