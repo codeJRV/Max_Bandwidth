@@ -20,6 +20,8 @@ def dijkstras_noHeap(G,s,t):
         parent[v] = u
         fringe[v] = bandwidth[v]
 
+
+
     while (status[t] != 'in_tree'):
         u = max(fringe, key=fringe.get)
         #print (u)
@@ -45,12 +47,17 @@ def dijkstras_noHeap(G,s,t):
                 bandwidth[vertex] = min(bandwidth[u], e[2])
                 fringe[vertex] = bandwidth[vertex]
 
+
     if status[t] == 'in_tree':
 
+        count = 0;
         max_bw = bandwidth[t]
-        while(parent[t] != None):
+        while(parent[t] != None and t != s):
             print(t, "<-- ", end="")
             t = parent[t]
+            count +=1
+
         print(t)
+        #print("Last: ",  t)
 
         print("Max_bandwidth:",max_bw )

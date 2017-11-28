@@ -27,7 +27,8 @@ def generate_graph( n_vertex,max_wt, degree ):
         else:
             weight = random.randint(1, max_wt)
             if(g.graph_degree(start)<degree):
-                g.add_edge(start, u, weight)
+                if(start != u):
+                    g.add_edge(start, u, weight)
 
             start = u
 
@@ -50,8 +51,9 @@ def generate_graph( n_vertex,max_wt, degree ):
         added = False
         if(g.get_edge(u,v)==-1 and g.graph_degree(u)<degree and g.graph_degree(v)<degree):
             wt = random.randint(1, max_wt)
-            g.add_edge(u,v,wt)
-            added = True
+            if(u != v):
+                g.add_edge(u,v,wt)
+                added = True
 
         if(g.graph_degree(u)<degree and added == True):
             vertex_list.append(u)
@@ -60,10 +62,10 @@ def generate_graph( n_vertex,max_wt, degree ):
             vertex_list.append(v)
 
 
-    print ("done")
+    print ("Graph of ", n_vertex, " vertices with ", end="")
     #print(g._edge)
 
-    print("Average degree:", float(sum(g.graph_degree(v) for v in g.get_vertices()))/float(n_vertex))
+    print("Average degree:", float(sum(g.graph_degree(v) for v in g.get_vertices()))/float(n_vertex),"is generated")
 
 
     #print(g.n_edges())

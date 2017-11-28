@@ -62,5 +62,5 @@ class Graph:
         return degree
 
     def grap_plot(self):
-        print(self)
+        print(self._edge)
         return self

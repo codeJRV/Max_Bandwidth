@@ -5,29 +5,47 @@ import time
 from kruskals import *
 from dijkstras_noHeap import *
 from dijkstras_withHeap import *
+import time
+
+n = 0
+g_time  = []
+k_time  = []
+d_time  = []
+dh_time = []
+
+while (n < 3):
 
 
+    start_time = time.time()
+    G,s,t = generate_graph(5000,50,1000)
+    end_time = time.time()
+    print("Graph Generation takes time", format(end_time -start_time), "seconds")
 
-G,s,t = generate_graph(50,19,10)
-# G = Graph()
-# G.add_vertex(1)
-# G.add_vertex(2)
-# G.add_vertex(3)
-# G.add_vertex(4)
-# G.add_vertex(5)
-#
-# G.add_edge(1,2,9)
-# G.add_edge(1,3,7)
-# G.add_edge(2,3,2)
-# G.add_edge(2,4,3)
-# G.add_edge(3,5,5)
-# G.add_edge(4,5,6)
+    g_time.append((end_time-start_time))
 
-# s = 1
-# t = 4
+    start_time = time.time()
+    kruskals(G, s, t)
+    end_time = time.time()
 
+    k_time.append((end_time-start_time))
 
-start_time = time.time()
-kruskals(G, s, t)
-dijkstras_noHeap(G,s,t)
-dijkstras_withHeap(G,s,t)
+    print("kruskals algorithm takes time", format(end_time -start_time), "seconds")
+
+    start_time = time.time()
+    dijkstras_noHeap(G,s,t)
+    end_time = time.time()
+    print("Dijkstras algorithm takes time", format(end_time -start_time), "seconds")
+    d_time.append((end_time-start_time))
+
+    start_time = time.time()
+    dijkstras_withHeap(G,s,t)
+    end_time = time.time()
+    print("Dijkstras algorithm with heap takes time", format(end_time -start_time), "seconds")
+    dh_time.append((end_time-start_time))
+
+    n += 1
+
+print( "Average g time: ", float(sum(g_time))/float(n))
+print( "Average k time: ", float(sum(k_time))/float(n))
+print( "Average d time: ", float(sum(d_time))/float(n))
+print( "Average dh time: ", float(sum(dh_time))/float(n))

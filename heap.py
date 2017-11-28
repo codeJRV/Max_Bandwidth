@@ -22,12 +22,19 @@ class HeapPQ():
 
     def add(self,key,value):
         self.elementList.append(HeapBase(key,value))
-        self.heapify()
+        self._bubbleup(len(self.elementList) - 1)
 
     def heapify(self):
         start = self._parent(len(self.elementList) - 1)
         for j in range(start, -1, -1):
             self._bubbledown(j)
+
+    def _swap(self, i, j):
+        temp = self.elementList[i]
+        self.elementList[i] = self.elementList[j]
+        self.elementList[j] = temp
+
+        #self.elementList[i],self.elementList[j] = self.elementList[j], self.elementList[i]
 
     def _bubbledown(self, j):
         if self._leftPesent(j):
@@ -39,9 +46,7 @@ class HeapPQ():
                     max_child = right
             if self.elementList[max_child] > self.elementList[j]:
                 #Swap J and max
-                temp = self.elementList[j]
-                self.elementList[j] = self.elementList[max_child]
-                self.elementList[max_child] = temp
+                self._swap(j,max_child)
                 self._bubbledown(max_child)
 
     def _bubbleup(self, j):
@@ -49,9 +54,7 @@ class HeapPQ():
             parent = self._parent(j)
             if self.elementList[j] > self.elementList[parent]:
                 # Swap J and max
-                temp = self.elementList[j]
-                self.elementList[j] = self.elementList[parent]
-                self.elementList[parent] = temp
+                self._swap(j,parent)
                 self._bubbleup(parent)
 
     def _parent(self, i):
@@ -105,25 +108,37 @@ class DijkstrasHeap(HeapPQ):
     def add(self, key, value):
         token = self.Locator(key, value, len(self.elementList))
         # print(len(self.elementList))
-        #print("Token",token)
+        #print("Token",token._index,token._key,token._value)
         self.elementList.append(token)
-        self.heapify()
+        self._bubbleup(len(self.elementList) - 1)
         return token
 
     def update(self, loc, newkey, newval):
+        #loc._index = self.elementList[newval]
         j = loc._index
-        #print("Jay" , j)
+
+        #for e in self.elementList:
+        #    print("element:", e._key,e._value,e._index)
+
         #print("Len" ,len(self.elementList))
-        #print(self.elementList[j])
-        #if not (0 <= j < len(self.elementList) and self.elementList[j] is loc):
-        #    raise ValueError('Invalid locator')
+        #print("Token", loc._index, loc._key, loc._value)
+
         loc._key = newkey
         loc._value = newval
 
-        if j > 0 and self.elementList[j-1] > self.elementList[self._parent(j-1)]:
+        if j > 0 and self.elementList[j] > self.elementList[self._parent(j)]:
             self._bubbleup(j)
         else:
             self._bubbledown(j)
+
+    def _swap(self, i, j):
+        #print("Kidswap called")
+        super()._swap(i,j)
+        self.elementList[i]._index = j
+        self.elementList[j]._index = i
+        #print ("swapped:", self.elementList[i]._index, self.elementList[j]._index)
+
+
 
 
 
