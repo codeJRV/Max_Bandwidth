@@ -1,5 +1,9 @@
+import time
+
 def dijkstras_noHeap(G,s,t):
     print("Dijkstra running without heap")
+    start_time = time.time()
+    end_time   = 0
     status      = {}
     parent      = {}
     fringe      = {}
@@ -49,9 +53,9 @@ def dijkstras_noHeap(G,s,t):
 
 
     if status[t] == 'in_tree':
-
-        count = 0;
+        count = 0
         max_bw = bandwidth[t]
+        end_time = time.time()
         while(parent[t] != None and t != s):
             print(t, "<-- ", end="")
             t = parent[t]
@@ -61,3 +65,5 @@ def dijkstras_noHeap(G,s,t):
         #print("Last: ",  t)
 
         print("Max_bandwidth:",max_bw )
+
+    return (end_time-start_time)

@@ -1,5 +1,6 @@
 import graph
 import random
+import time
 
 def generate_graph( n_vertex,max_wt, degree ):
 
@@ -8,6 +9,9 @@ def generate_graph( n_vertex,max_wt, degree ):
     else:
         print("Sparse graph generation, should happen quickly...")
 
+
+    start_time = time.time()
+    end_time   = 0
     g = graph.Graph()
     for index in range(1, n_vertex + 1):
         g.add_vertex(index)
@@ -61,6 +65,7 @@ def generate_graph( n_vertex,max_wt, degree ):
         if (g.graph_degree(v) < degree and added == True):
             vertex_list.append(v)
 
+    end_time = time.time()
 
     print ("Graph of ", n_vertex, " vertices with ", end="")
     #print(g._edge)
@@ -71,4 +76,4 @@ def generate_graph( n_vertex,max_wt, degree ):
     #print(g.n_edges())
     #print(g.n_vertices())
 
-    return g,s,t
+    return g,s,t,(end_time-start_time)

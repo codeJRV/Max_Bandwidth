@@ -1,6 +1,6 @@
-from heap import *
 from graph import Graph
-from queue import *
+from heap import *
+import time
 
 root = {}
 rank = {}
@@ -28,6 +28,8 @@ def find(vertex):
 
 def kruskals(G,s,t):
     print("Kruskal is walking thru the graph slowly...")
+    start_time = time.time()
+    end_time   = 0
     Pqueue  = HeapPQ(None,None)
     for v in G.get_vertices(): make_set(v)
     for e in G.get_edges()   :
@@ -40,7 +42,7 @@ def kruskals(G,s,t):
     start_v   = s
     end_v     = t
 
-    while(len(Pqueue.elementList)>0):
+    while(len(Pqueue.nodeList)>0):
         max_element = Pqueue.remove_largest()
         #print("Removing:",max_element[0])
         #Pqueue.show()
@@ -62,7 +64,9 @@ def kruskals(G,s,t):
 
     #print ("MST is",mst._edge)
     max_bw = BFS(mst,start_v,end_v)
+    end_time = time.time()
     print("Max Bandwidth:", max_bw)
+    return (end_time-start_time)
 
 def BFS(mst,s,t):
     start = s

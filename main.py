@@ -1,7 +1,4 @@
 from generate_random_graphs import *
-from heap import *
-import graph
-import time
 from kruskals import *
 from dijkstras_noHeap import *
 from dijkstras_withHeap import *
@@ -13,35 +10,26 @@ k_time  = []
 d_time  = []
 dh_time = []
 
-while (n < 3):
+while (n < 1):
 
 
-    start_time = time.time()
-    G,s,t = generate_graph(5000,50,1000)
-    end_time = time.time()
-    print("Graph Generation takes time", format(end_time -start_time), "seconds")
 
-    g_time.append((end_time-start_time))
+    G,s,t, runtime = generate_graph(500,999,100)
+    print("Graph Generation takes time", format(runtime), "seconds")
+    g_time.append((runtime))
 
-    start_time = time.time()
-    kruskals(G, s, t)
-    end_time = time.time()
 
-    k_time.append((end_time-start_time))
+    runtime = kruskals(G, s, t)
+    k_time.append((runtime))
+    print("kruskals algorithm takes time", format(runtime), "seconds")
 
-    print("kruskals algorithm takes time", format(end_time -start_time), "seconds")
+    runtime = dijkstras_noHeap(G,s,t)
+    print("Dijkstras algorithm takes time", format(runtime), "seconds")
+    d_time.append((runtime))
 
-    start_time = time.time()
-    dijkstras_noHeap(G,s,t)
-    end_time = time.time()
-    print("Dijkstras algorithm takes time", format(end_time -start_time), "seconds")
-    d_time.append((end_time-start_time))
-
-    start_time = time.time()
-    dijkstras_withHeap(G,s,t)
-    end_time = time.time()
-    print("Dijkstras algorithm with heap takes time", format(end_time -start_time), "seconds")
-    dh_time.append((end_time-start_time))
+    runtime = dijkstras_withHeap(G,s,t)
+    print("Dijkstras algorithm with heap takes time", format(runtime), "seconds")
+    dh_time.append((runtime))
 
     n += 1
 

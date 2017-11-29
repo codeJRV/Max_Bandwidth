@@ -1,8 +1,10 @@
 from heap import *
-from queue import *
+import time
 
 def dijkstras_withHeap(G,s,t):
     print("Dijkstra running with heap")
+    start_time = time.time()
+    end_time   = 0
     status      = {}
     parent      = {}
     fringe      = DijkstrasHeap(None,None)
@@ -89,9 +91,12 @@ def dijkstras_withHeap(G,s,t):
     if status[t] == 'in_tree':
 
         max_bw = bandwidth[t]
+        end_time = time.time()
         while(parent[t] != None and t != s):
             print(t, "<-- ", end="")
             t = parent[t]
         print(t)
 
         print("Max_bandwidth:",max_bw )
+
+    return (end_time-start_time)
