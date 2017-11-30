@@ -73,7 +73,7 @@ def generate_graph( n_vertex,max_wt, degree ):
     print ("Graph of ", n_vertex, " vertices with ", end="")
     #print(g._edge)
 
-    print("Average degree:", float(sum(g.graph_degree(v) for v in g.get_vertices()))/float(n_vertex),"is generated")
+    print("Average degree:", degree,"is generated")
 
 
     #print(g.n_edges())

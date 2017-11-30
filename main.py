@@ -56,7 +56,7 @@ else:
 while (n < int(testcases)):
 
     G,st_list, runtime = generate_graph(int(n_vertices),int(max_wt),int(conn))
-    print("Graph Generation takes time", format(runtime), "seconds per s-t path")
+    print("Graph Generation takes time", format(runtime), "seconds ")
     g_time.append((runtime))
 
     runtime = dijkstras_noHeap(G, st_list,to_see)
