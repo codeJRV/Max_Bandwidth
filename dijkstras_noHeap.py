@@ -61,6 +61,7 @@ def dijkstras_noHeap(G,st_list, to_see):
             count = 0
             max_bw = bandwidth[t]
             end_time = time.time()
+            print("Runtime per problem", format(end_time-start_time) , "seconds" )
             runtime += end_time-start_time
 
             if(to_see == '0'):

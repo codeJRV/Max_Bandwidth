@@ -61,15 +61,21 @@ def kruskals(G,st_list,to_see):
             union(u,v)
 
 
-
+    end_time = time.time()
     #print ("MST is",mst._edge)
-    for s,t in st_list:
-        print ("start", s, "end", t)
-        max_bw = BFS(mst,s,t,to_see)
-        print("Max Bandwidth:", max_bw)
 
+    for s,t in st_list:
+        part_time = time.time()
+        max_bw = BFS(mst,s,t,to_see)
+        part_time_end = time.time()
+        print("start", s, "end", t, end="")
+        print(" Max Bandwidth:", max_bw, end="")
+        print(" Runtime(taking MST generation+ BFS(s-t)): ", format((end_time-start_time) + (part_time -part_time_end)) , "seconds" )
 
     end_time = time.time()
+
+
+
     return (end_time-start_time)
 
 def BFS(mst,s,t,to_see):

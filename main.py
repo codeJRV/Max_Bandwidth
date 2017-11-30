@@ -59,6 +59,8 @@ while (n < int(testcases)):
     print("Graph Generation takes time", format(runtime), "seconds ")
     g_time.append((runtime))
 
+    G.grap_plot()
+
     runtime = dijkstras_noHeap(G, st_list,to_see)
     print("Dijkstras algorithm takes average time", format(runtime/5), "seconds per s-t path")
     d_time.append((runtime))
@@ -72,12 +74,14 @@ while (n < int(testcases)):
 #
     runtime = kruskals(G, st_list,to_see)
     k_time.append((runtime))
-    print("kruskals algorithm takes average time", format(runtime/5), "seconds per s-t path")
+    print("kruskals algorithm takes average time", format(runtime/5), "seconds per s-t path(averaging mst generation)")
 #
 
 #
     n += 1
 #
+print(' ')
+print(' ')
 print( "Average Graph Generation time over all test cases       : ", float(sum(g_time))/float(n))
 print( "Average Kruskals MST time over all test cases           : ", float(sum(k_time))/float(n*5))
 print( "Average Mod-Dijkstras time over all test cases          : ", float(sum(d_time))/float(n*5))
