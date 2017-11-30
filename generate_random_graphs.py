@@ -16,54 +16,57 @@ def generate_graph( n_vertex,max_wt, degree ):
     for index in range(1, n_vertex + 1):
         g.add_vertex(index)
 
-    s = 0
-    t = 0
 
-    while (s == t):
-        s = random.randint(1, n_vertex - 1)  # randomly select a vertex s and t
-        t = random.randint(1, n_vertex - 1)
+    st_list = []
+    while(len(st_list)<5):
 
-    print("start:",s,"end",t)
-    start = s
-    for u in g.get_vertices():
-        if u == t or u == s:
-            continue
-        else:
-            weight = random.randint(1, max_wt)
-            if(g.graph_degree(start)<degree):
-                if(start != u):
-                    g.add_edge(start, u, weight)
+        s = 0
+        t = 0
+        while (s == t):
+            s = random.randint(1, n_vertex - 1)  # randomly select a vertex s and t
+            t = random.randint(1, n_vertex - 1)
 
-            start = u
+            print("start:",s,"end",t)
+            start = s
 
-    wt = random.randint(1, max_wt)
-    if (g.graph_degree(start) < degree): g.add_edge(start, t, wt)
+        #create a path from s to t
+        for u in g.get_vertices():
+            if u == t or u == s:
+                continue
+            else:
+                weight = random.randint(1, max_wt)
+                if(g.graph_degree(start)<degree):
+                    if(start != u):
+                        g.add_edge(start, u, weight)
+
+                start = u
+
+        wt = random.randint(1, max_wt)
+        if (g.graph_degree(start) < degree): g.add_edge(start, t, wt)
+
+        if (s,t) not in st_list:
+            st_list.append((s,t))
 
 
     #now we need to ensure each vertex is connected to atleast degree number of vertexes
     #vertex_list
-    #print(g._edge)
-    vertex_list = list(v for v in g.get_vertices())
 
-    for v in vertex_list:
-        if(g.graph_degree(v)==degree):
-            vertex_list.remove(v)
+    vertex_list = g.get_vertices()
 
-    while(len(vertex_list)>1):  # atleast two valid vertices
+    while(len(vertex_list)>2):  # atleast two valid vertices
         u = vertex_list.pop()
-        v = random.choice(vertex_list)
-        added = False
-        if(g.get_edge(u,v)==-1 and g.graph_degree(u)<degree and g.graph_degree(v)<degree):
-            wt = random.randint(1, max_wt)
-            if(u != v):
-                g.add_edge(u,v,wt)
-                added = True
+        u_degree = g.graph_degree(u)
+        for p in range(u_degree,degree):
+            if(len(vertex_list)>0):
+                v = random.choice(vertex_list)
 
-        if(g.graph_degree(u)<degree and added == True):
-            vertex_list.append(u)
+                if(g.get_edge(u,v)==-1 and g.graph_degree(v)<degree):
+                    wt = random.randint(1, max_wt)
+                    if(u != v):
+                        g.add_edge(u,v,wt)
 
-        if (g.graph_degree(v) < degree and added == True):
-            vertex_list.append(v)
+                if (g.graph_degree(v) == degree):
+                    vertex_list.remove(v)
 
     end_time = time.time()
 
@@ -76,4 +79,4 @@ def generate_graph( n_vertex,max_wt, degree ):
     #print(g.n_edges())
     #print(g.n_vertices())
 
-    return g,s,t,(end_time-start_time)
+    return g,st_list,(end_time-start_time)

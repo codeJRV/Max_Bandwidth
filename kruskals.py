@@ -26,11 +26,11 @@ def find(vertex):
         root[vertex] = find(root[vertex])
     return root[vertex]
 
-def kruskals(G,s,t):
+def kruskals(G,st_list,to_see):
     print("Kruskal is walking thru the graph slowly...")
     start_time = time.time()
     end_time   = 0
-    Pqueue  = HeapPQ(None,None)
+    Pqueue  = HeapPQ()
     for v in G.get_vertices(): make_set(v)
     for e in G.get_edges()   :
         #print(e)
@@ -39,10 +39,8 @@ def kruskals(G,s,t):
     #Pqueue.show()
 
     mst     = Graph()
-    start_v   = s
-    end_v     = t
 
-    while(len(Pqueue.nodeList)>0):
+    while(len(Pqueue)>0):
         max_element = Pqueue.remove_largest()
         #print("Removing:",max_element[0])
         #Pqueue.show()
@@ -62,13 +60,19 @@ def kruskals(G,s,t):
             mst.add_edge(u,v,max_wt)
             union(u,v)
 
+
+
     #print ("MST is",mst._edge)
-    max_bw = BFS(mst,start_v,end_v)
+    for s,t in st_list:
+        print ("start", s, "end", t)
+        max_bw = BFS(mst,s,t,to_see)
+        print("Max Bandwidth:", max_bw)
+
+
     end_time = time.time()
-    print("Max Bandwidth:", max_bw)
     return (end_time-start_time)
 
-def BFS(mst,s,t):
+def BFS(mst,s,t,to_see):
     start = s
 
     visited = []
@@ -90,15 +94,16 @@ def BFS(mst,s,t):
 
             if neighbour == t:
                 t_parent = vertex
-                print(t, "<-- ", end="")
-                max_bw = mst.get_edge(vertex,t)[2]
+                if(to_see == '0'): print(t, "<-- ", end="")
+                #print("Edge" ,mst.get_edge(vertex,t))
+                max_bw = mst.get_edge(vertex,t)
 
                 while parent[vertex] != 0:
-                    print(vertex,"<-- ", end="")
-                    bw = mst.get_edge(vertex, parent[vertex])[2]
+                    if (to_see == '0'): print(vertex,"<-- ", end="")
+                    bw = mst.get_edge(vertex, parent[vertex])
                     if(bw<max_bw):
                         max_bw = bw
                     vertex = parent[vertex]
 
-                print(vertex)
+                if (to_see == '0'): print(vertex)
                 return max_bw
