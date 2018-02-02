@@ -59,7 +59,7 @@ while (n < int(testcases)):
     print("Graph Generation takes time", format(runtime), "seconds ")
     g_time.append((runtime))
 
-    G.grap_plot()
+
 
     runtime = dijkstras_noHeap(G, st_list,to_see)
     print("Dijkstras algorithm takes average time", format(runtime/5), "seconds per s-t path")

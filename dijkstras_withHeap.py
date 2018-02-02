@@ -8,7 +8,7 @@ def dijkstras_withHeap(G,st_list,to_see):
     runtime    = 0
 
     for s,t in st_list:
-        print ("start", s, "end", t)
+        print ("start", s, "end", t, " ", end="")
         start_time = time.time()
 
         status      = {}
@@ -99,7 +99,7 @@ def dijkstras_withHeap(G,st_list,to_see):
 
             max_bw = bandwidth[t]
             end_time = time.time()
-            print("Runtime per problem", format(end_time-start_time) , "seconds" )
+            print("Runtime ", format(end_time-start_time) , "seconds", end=" " )
             runtime += end_time-start_time
 
             if(to_see == '0'):
@@ -108,6 +108,6 @@ def dijkstras_withHeap(G,st_list,to_see):
                     t = parent[t]
                 print(t)
 
-            print("Max_bandwidth:",max_bw )
+            print(" Max_bandwidth:",max_bw )
 
     return (runtime)
